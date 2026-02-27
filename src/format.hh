@@ -1,5 +1,7 @@
 #pragma once
 
+template <typename ...A> auto println(A... args) -> void;
+
 #include "linear_allocator.hh"
 #include "string.hh"
 #include "bits.hh"
@@ -92,6 +94,8 @@ namespace core {
 
     template <typename ...A>
     auto println(A... args) -> void {
+        temp::alloc<char>(0); // FIXME: temporary allocator init
+
         u8 *checkpoint = temp::allocator.end;
 
         string s = fmt(&temp::allocator, args...);

@@ -12,8 +12,11 @@ namespace core {
 
         u8 *start;
         u8 *end;
+        usize total_size;
 
-        linear_allocator() {
+        linear_allocator() = default;
+
+        linear_allocator(usize size): total_size{size} {
             start = static_cast<u8*>(mmap(nullptr, overcommit,
                                           PROT_READ | PROT_WRITE,
                                           MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE,
@@ -52,21 +55,26 @@ namespace core {
         }
 
         auto free_all() -> void {
-            munmap(start, overcommit);
+            munmap(start, total_size);
         }
     };
 
     struct temp {
         static inline linear_allocator allocator = {};
 
-
         template <typename T, typename ...A>
         static auto create(A... args) -> T * {
+            if (allocator.start == nullptr)
+                allocator = linear_allocator(linear_allocator::overcommit);
+
             return allocator.create<T>(args...);
         }
 
         template <typename T, typename ...A>
         static auto alloc(usize count) -> slice<T> {
+            if (allocator.start == nullptr)
+                allocator = linear_allocator(linear_allocator::overcommit);
+
             return allocator.alloc<T>(count);
         }
 
@@ -75,7 +83,8 @@ namespace core {
         }
 
         static auto free_all() -> void {
-            allocator.free_all();
+            if (allocator.start != nullptr)
+                allocator.free_all();
         }
     };
 
