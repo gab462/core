@@ -9,7 +9,7 @@
 
     let lib = new Core();
 
-    WebAssembly.instantiateStreaming(fetch("core.wasm"), {
+    WebAssembly.instantiateStreaming(fetch("primer.wasm"), {
         env: lib.env()
     }).then(m => {
         lib.set_module(m);

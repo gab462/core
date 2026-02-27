@@ -15,7 +15,7 @@ else
 endif
 
 .PHONY: all
-all: client$(EXT) server$(EXT) core$(EXT)
+all: client$(EXT) server$(EXT) primer$(EXT)
 
 %.pcm: ../src/%.cppm
 	$(CC) $(CXXFLAGS) --precompile -o $@ $<
