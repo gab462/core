@@ -1,6 +1,6 @@
-export module nolibc;
+export module core:nolibc;
 
-import bits;
+import :bits;
 
 #if defined(__linux__) && defined(__x86_64__)
 #define SYS_LINUX

@@ -1,10 +1,4 @@
-import bits;
-import array;
-import linear_allocator;
-import format;
-import slice;
-import string;
-import nolibc;
+import core;
 
 extern "C" auto _start() -> void {
     auto n = core::temp::create<core::s32>(-777);

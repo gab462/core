@@ -1,6 +1,6 @@
-export module slice;
+export module core:slice;
 
-import bits;
+import :bits;
 
 export namespace core {
 

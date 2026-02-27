@@ -1,7 +1,7 @@
-export module string;
+export module core:string;
 
-import slice;
-import bits;
+import :slice;
+import :bits;
 
 export namespace core {
 

@@ -1,7 +1,7 @@
-export module array;
+export module core:array;
 
-import bits;
-import slice;
+import :bits;
+import :slice;
 
 export namespace core {
 

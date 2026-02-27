@@ -1,9 +1,9 @@
-export module linear_allocator;
+export module core:linear_allocator;
 
-import bits;
-import nolibc;
-import memory;
-import slice;
+import :bits;
+import :nolibc;
+import :memory;
+import :slice;
 
 export namespace core {
         

@@ -1,4 +1,4 @@
-export module bits;
+export module core:bits;
 
 export namespace core {
 

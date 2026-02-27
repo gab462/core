@@ -1,7 +1,7 @@
 CC := cc
 NOSTDFLAGS := -nostdlib -fno-builtin -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -fno-stack-protector # -fdata-sections + -Wl,-dead_strip / -Wl,--gc-sections
 CXXFLAGS := -Wall -Wextra -Wshadow -std=c++20 -pedantic -fno-exceptions -fno-rtti -fmodules $(NOSTDFLAGS) -fprebuilt-module-path=.
-MOD := bits.pcm nolibc.pcm slice.pcm string.pcm array.pcm memory.pcm linear_allocator.pcm format.pcm
+MOD := core-bits.pcm core-nolibc.pcm core-slice.pcm core-string.pcm core-array.pcm core-memory.pcm core-linear_allocator.pcm core-format.pcm core.pcm
 TARGET := LINUX
 
 ifeq ($(TARGET), WASM)

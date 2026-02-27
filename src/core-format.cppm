@@ -1,9 +1,9 @@
-export module format;
+export module core:format;
 
-import linear_allocator;
-import string;
-import bits;
-import nolibc;
+import :linear_allocator;
+import :string;
+import :bits;
+import :nolibc;
 
 export namespace core {
     

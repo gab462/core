@@ -1,7 +1,4 @@
-import nolibc;
-import bits;
-import format;
-import string;
+import core;
 
 auto htons(core::u16 n) -> core::u16 {
     return (n << 8) | (n >> 8);
