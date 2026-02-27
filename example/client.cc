@@ -29,7 +29,7 @@ extern "C" auto _start() -> void {
         core::exit(1);
     }
 
-    core::println("Connected successfully\n");
+    core::println("Connected successfully");
 
     core::string msg = "hello";
 
@@ -44,7 +44,7 @@ extern "C" auto _start() -> void {
     core::usize received = core::read(fd, buf, sizeof(buf));
 
     if (received <= 0) {
-        core::println("read() error\n");
+        core::println("read() error");
         core::exit(1);
     }
 

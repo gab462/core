@@ -10,7 +10,7 @@ extern "C" auto _start() -> void {
     int server_fd = core::socket(core::AF_INET, core::SOCK_STREAM, 0);
 
     if (server_fd == 0) {
-        core::println("socket() error\n");
+        core::println("socket() error");
         core::exit(1);
     }
 
