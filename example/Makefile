@@ -6,10 +6,10 @@ CXXFLAGS := -Wall -Wextra -Wshadow -std=c++20 -pedantic -fno-exceptions -fno-rtt
 all: client server core core.wasm
 
 client: client.cc
-	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static
+	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
 
 server: server.cc
-	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static
+	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
 
 core: core.cc
 	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
