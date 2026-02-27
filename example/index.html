@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>core example</title>
+</head>
+<body>
+  <script type="module">
+    import { Core } from "/core.js";
+
+    let lib = new Core();
+
+    WebAssembly.instantiateStreaming(fetch("core.wasm"), {
+        env: lib.env()
+    }).then(m => {
+        lib.set_module(m);
+        m.instance.exports._start();
+    }).catch(error => {
+        console.error(error);
+    });
+  </script>
+</body>
+</html>

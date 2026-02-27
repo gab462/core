@@ -1,0 +1,7 @@
+clang
+-Wall
+-Wshadow
+-Wno-initializer-overrides
+-std=c++20
+-pedantic
+-I/opt/homebrew/include
