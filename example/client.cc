@@ -16,8 +16,10 @@ extern "C" auto _start() -> void {
 
     core::sockaddr_in addr = {
         .sin_family = core::AF_INET,
-        .sin_addr.s_addr = (127 << 0) + (0 << 8) + (0 << 16) + (1 << 24),
         .sin_port = htons(8080),
+        .sin_addr = {
+            .s_addr = (127 << 0) + (0 << 8) + (0 << 16) + (1 << 24),
+        },
     };
 
     int ret = core::connect(fd, &addr, sizeof(addr));

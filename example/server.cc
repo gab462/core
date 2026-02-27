@@ -16,8 +16,10 @@ extern "C" auto _start() -> void {
 
     core::sockaddr_in addr = {
         .sin_family = core::AF_INET,
-        .sin_addr.s_addr = 0,
-        .sin_port = htons(8080)
+        .sin_port = htons(8080),
+        .sin_addr = {
+            .s_addr = 0,
+        },
     };
 
     core::u32 addr_len = sizeof(addr);
