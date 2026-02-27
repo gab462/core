@@ -1,12 +1,9 @@
-#pragma once
+export module string;
 
-#include "slice.hh"
-#include "array.hh"
-#include "bits.hh"
+import slice;
+import bits;
 
-namespace core {
-
-    template <typename T> struct slice;
+export namespace core {
 
     template <>
     struct slice<const char> {

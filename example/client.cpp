@@ -1,6 +1,7 @@
-#include <nolibc.hh>
-#include <bits.hh>
-#include <format.hh>
+import nolibc;
+import bits;
+import format;
+import string;
 
 auto htons(core::u16 n) -> core::u16 {
     return (n << 8) | (n >> 8);

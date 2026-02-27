@@ -1,6 +1,6 @@
-#pragma once
+export module nolibc;
 
-#include "bits.hh"
+import bits;
 
 #if defined(__linux__) && defined(__x86_64__)
 #define SYS_LINUX
@@ -10,7 +10,7 @@
 #error "OS not implemented"
 #endif
 
-namespace core {
+export namespace core {
 
 #if defined(SYS_LINUX)
 

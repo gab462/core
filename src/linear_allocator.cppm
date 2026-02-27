@@ -1,11 +1,11 @@
-#pragma once
+export module linear_allocator;
 
-#include "bits.hh"
-#include "nolibc.hh"
-#include "new.hh"
-#include "slice.hh"
+import bits;
+import nolibc;
+import memory;
+import slice;
 
-namespace core {
+export namespace core {
         
     struct linear_allocator {
         static constexpr usize overcommit = 16ul * 1024 * 1024 * 1024;

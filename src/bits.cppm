@@ -1,6 +1,6 @@
-#pragma once
+export module bits;
 
-namespace core {
+export namespace core {
 
     using s8 = signed char;
     using s16 = signed short;

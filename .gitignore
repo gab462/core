@@ -1,5 +1,6 @@
 example/client
 example/server
 example/core
-example/core.wasm
+example/*.wasm
 example/*.dSYM
+example/*.pcm

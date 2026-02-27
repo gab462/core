@@ -1,17 +1,15 @@
-#pragma once
+export module array;
 
-#include "bits.hh"
-#include "assert.hh"
-#include "slice.hh"
+import bits;
+import slice;
 
-namespace core {
+export namespace core {
 
     template <typename T, usize N>
     struct array {
         T data[N];
 
         auto operator[](usize idx) -> T& {
-            assert(idx < N);
             return data[idx];
         }
 

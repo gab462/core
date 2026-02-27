@@ -1,9 +1,10 @@
-#include <array.hh>
-#include <linear_allocator.hh>
-#include <format.hh>
-#include <slice.hh>
-#include <assert.hh>
-#include <string.hh>
+import bits;
+import array;
+import linear_allocator;
+import format;
+import slice;
+import string;
+import nolibc;
 
 extern "C" auto _start() -> void {
     auto n = core::temp::create<core::s32>(-777);

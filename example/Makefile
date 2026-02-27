@@ -1,18 +1,24 @@
 CC := cc
-NOSTDFLAGS := -nostdlib -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -fno-builtin -fno-stack-protector # -fdata-sections + -Wl,-dead_strip / -Wl,--gc-sections
-CXXFLAGS := -Wall -Wextra -Wshadow -std=c++20 -pedantic -fno-exceptions -fno-rtti $(NOSTDFLAGS) -I../src
+NOSTDFLAGS := -nostdlib -fno-builtin -fno-unwind-tables -fno-asynchronous-unwind-tables -Wa,--noexecstack -fno-stack-protector # -fdata-sections + -Wl,-dead_strip / -Wl,--gc-sections
+CXXFLAGS := -Wall -Wextra -Wshadow -std=c++20 -pedantic -fno-exceptions -fno-rtti -fmodules $(NOSTDFLAGS) -fprebuilt-module-path=.
+MOD := bits.pcm nolibc.pcm slice.pcm string.pcm array.pcm memory.pcm linear_allocator.pcm format.pcm
+TARGET := LINUX
+
+ifeq ($(TARGET), WASM)
+	CXXFLAGS += --target=wasm32
+	LDFLAGS = -fuse-ld=lld -Wl,--export=__heap_base -Wl,--export=_start -Wl,--allow-undefined 
+	EXT=.wasm
+else
+	CXXFLAGS += -ggdb
+	LDFLAGS = -static
+	EXT=
+endif
 
 .PHONY: all
-all: client server core core.wasm
+all: client$(EXT) server$(EXT) core$(EXT)
 
-client: client.cc
-	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
+%.pcm: ../src/%.cppm
+	$(CC) $(CXXFLAGS) --precompile -o $@ $<
 
-server: server.cc
-	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
-
-core: core.cc
-	$(CC) $(CXXFLAGS) -o $@ $< -e _start -static -ggdb
-
-core.wasm: core.cc
-	$(CC) $(CXXFLAGS) -fuse-ld=lld --target=wasm32 -Wl,--export=__heap_base -Wl,--export=_start -Wl,--allow-undefined -o $@ $<
+%$(EXT): %.cpp $(MOD)
+	$(CC) $(CXXFLAGS) -o $@ $^ -e _start $(LDFLAGS)

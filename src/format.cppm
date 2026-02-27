@@ -1,28 +1,26 @@
-#pragma once
+export module format;
 
-template <typename ...A> auto println(A... args) -> void;
+import linear_allocator;
+import string;
+import bits;
+import nolibc;
 
-#include "linear_allocator.hh"
-#include "string.hh"
-#include "bits.hh"
-#include "nolibc.hh"
-
-namespace core {
+export namespace core {
     
-    inline auto format(linear_allocator *arena, char c) -> void {
+    auto format(linear_allocator *arena, char c) -> void {
         *arena->end++ = c;
     }
 
-    inline auto format(linear_allocator *arena, string s) -> void {
+    auto format(linear_allocator *arena, string s) -> void {
         for (usize i = 0; i < s.len; ++i)
             format(arena, s.ptr[i]);
     }
 
-    inline auto format(linear_allocator *arena, const char* s) -> void {
+    auto format(linear_allocator *arena, const char* s) -> void {
         format(arena, string{s});
     }
 
-    inline auto format(linear_allocator *arena, u64 n) -> void {
+    auto format(linear_allocator *arena, u64 n) -> void {
         if (n == 0) {
             format(arena, '0');
             return;
@@ -40,7 +38,7 @@ namespace core {
         }
     }
 
-    inline auto format(linear_allocator *arena, s64 n) -> void {
+    auto format(linear_allocator *arena, s64 n) -> void {
         if (n < 0) {
             format(arena, '-');
             n *= -1;
@@ -49,35 +47,35 @@ namespace core {
         format(arena, static_cast<u64>(n));
     }
 
-    inline auto format(linear_allocator *arena, s32 n) -> void {
+    auto format(linear_allocator *arena, s32 n) -> void {
         format(arena, static_cast<s64>(n));
     }
 
-    inline auto format(linear_allocator *arena, s16 n) -> void {
+    auto format(linear_allocator *arena, s16 n) -> void {
         format(arena, static_cast<s64>(n));
     }
 
-    inline auto format(linear_allocator *arena, s8 n) -> void {
+    auto format(linear_allocator *arena, s8 n) -> void {
         format(arena, static_cast<s64>(n));
     }
 
-    inline auto format(linear_allocator *arena, ssize n) -> void {
+    auto format(linear_allocator *arena, ssize n) -> void {
         format(arena, static_cast<s64>(n));
     }
 
-    inline auto format(linear_allocator *arena, u32 n) -> void {
+    auto format(linear_allocator *arena, u32 n) -> void {
         format(arena, static_cast<u64>(n));
     }
 
-    inline auto format(linear_allocator *arena, u16 n) -> void {
+    auto format(linear_allocator *arena, u16 n) -> void {
         format(arena, static_cast<u64>(n));
     }
 
-    inline auto format(linear_allocator *arena, u8 n) -> void {
+    auto format(linear_allocator *arena, u8 n) -> void {
         format(arena, static_cast<u64>(n));
     }
 
-    inline auto format(linear_allocator *arena, usize n) -> void {
+    auto format(linear_allocator *arena, usize n) -> void {
         format(arena, static_cast<u64>(n));
     }
 
@@ -105,6 +103,13 @@ namespace core {
         write(STDOUT_FILENO, s.ptr, s.len);
 
         temp::allocator.end = checkpoint;
+    }
+
+    auto assert(bool pred, const char *file = __builtin_FILE(), s32 line = __builtin_LINE()) -> void {
+        if (!pred) {
+            println(file, ":", line, ": assertion failed");
+            exit(1);
+        }
     }
 
 }
