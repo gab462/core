@@ -5,7 +5,7 @@
 #include <assert.hh>
 #include <string.hh>
 
-extern "C" auto _start() -> int {
+extern "C" auto _start() -> void {
     auto n = core::temp::create<core::s32>(-777);
 
     core::println("allocated:", *n);
@@ -48,5 +48,5 @@ extern "C" auto _start() -> int {
 
     core::temp::free_all();
 
-    return 0;
+    core::exit(0);
 }
