@@ -1,6 +1,4 @@
-example/client
-example/server
-example/core
+example/*.out
 example/*.wasm
 example/*.dSYM
 example/*.pcm

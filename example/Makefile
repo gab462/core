@@ -11,7 +11,7 @@ ifeq ($(TARGET), WASM)
 else
 	CXXFLAGS += -ggdb
 	LDFLAGS = -static
-	EXT=
+	EXT=.out
 endif
 
 .PHONY: all
