@@ -1,4 +1,1 @@
-example/*.out
-example/*.wasm
-example/*.dSYM
-example/*.pcm
+build
