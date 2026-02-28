@@ -81,7 +81,7 @@ export namespace core {
 
     template <typename ...A>
     auto fmt(linear_allocator *arena, A... args) -> string {
-        const u8 *start = arena->end;
+        u8 *start = arena->alloc<u8>(0).ptr;
 
         ((format(arena, args), format(arena, ' ')), ...);
 
@@ -92,9 +92,7 @@ export namespace core {
 
     template <typename ...A>
     auto println(A... args) -> void {
-        temp::alloc<char>(0); // FIXME: temporary allocator init
-
-        u8 *checkpoint = temp::allocator.end;
+        u8 *checkpoint = temp::alloc<u8>(0).ptr;
 
         string s = fmt(&temp::allocator, args...);
         *temp::allocator.end++ = '\n';
@@ -107,7 +105,16 @@ export namespace core {
 
     auto assert(bool pred, const char *file = __builtin_FILE(), s32 line = __builtin_LINE()) -> void {
         if (!pred) {
-            println(file, ":", line, ": assertion failed");
+            u8 *start = temp::alloc<u8>(0).ptr;
+
+            format(&temp::allocator, file);
+            format(&temp::allocator, ":");
+            format(&temp::allocator, line);
+            format(&temp::allocator, ": assertion failed\n");
+
+            string s =  {reinterpret_cast<const char *>(start), static_cast<usize>(temp::allocator.end - start)};
+            write(STDOUT_FILENO, s.ptr, s.len);
+
             exit(1);
         }
     }
