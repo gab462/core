@@ -9,7 +9,7 @@ ifeq ($(TARGET), WASM)
 	LDFLAGS = -fuse-ld=lld -Wl,--export=__heap_base -Wl,--export=_start -Wl,--allow-undefined 
 	EXT=.wasm
 else
-	CXXFLAGS += -ggdb
+	CXXFLAGS += -Og -ggdb
 	LDFLAGS = -static
 	EXT=.out
 endif

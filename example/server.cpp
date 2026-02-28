@@ -51,7 +51,7 @@ extern "C" auto _start() -> void {
     for (core::usize received = core::read(client_fd, buf, sizeof(buf));
             received > 0;
             received = core::read(client_fd, buf, sizeof(buf))) {
-        core::println("Received:", core::string{buf, received}); // FIXME: printing string causes fmt() args unpacking to crash
+        core::println("Received:", core::string{buf, received});
 
         core::write(client_fd, buf, received);
     }
