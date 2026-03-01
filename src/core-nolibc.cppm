@@ -14,7 +14,7 @@ export namespace core {
 
 #if defined(SYS_LINUX)
 
-    inline auto syscall0(ssize sys) -> ssize {
+    auto syscall0(ssize sys) -> ssize {
         register ssize ret asm("rax") = sys;
 
         __asm__ volatile(
@@ -26,7 +26,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall1(ssize sys, ssize a0) -> ssize {
+    auto syscall1(ssize sys, ssize a0) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
 
@@ -39,7 +39,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall2(ssize sys, ssize a0, ssize a1) -> ssize {
+    auto syscall2(ssize sys, ssize a0, ssize a1) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
         register ssize r1 asm("rsi") = a1;
@@ -53,7 +53,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall3(ssize sys, ssize a0, ssize a1, ssize a2) -> ssize {
+    auto syscall3(ssize sys, ssize a0, ssize a1, ssize a2) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
         register ssize r1 asm("rsi") = a1;
@@ -68,7 +68,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall4(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3) -> ssize {
+    auto syscall4(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
         register ssize r1 asm("rsi") = a1;
@@ -84,7 +84,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall5(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3, ssize a4) -> ssize {
+    auto syscall5(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3, ssize a4) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
         register ssize r1 asm("rsi") = a1;
@@ -101,7 +101,7 @@ export namespace core {
         return ret;
     }
 
-    inline auto syscall6(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3, ssize a4, ssize a5) -> ssize {
+    auto syscall6(ssize sys, ssize a0, ssize a1, ssize a2, ssize a3, ssize a4, ssize a5) -> ssize {
         register ssize ret asm("rax") = sys;
         register ssize r0 asm("rdi") = a0;
         register ssize r1 asm("rsi") = a1;
@@ -238,127 +238,127 @@ export namespace core {
 
     constexpr ssize MSG_WAITALL = 0x100;
 
-    inline auto WTERMSIG(int status) -> int {
+    auto WTERMSIG(int status) -> int {
         return status & 0177;
     }
 
-    inline auto WSTOPSIG(int status) -> int {
+    auto WSTOPSIG(int status) -> int {
         return status >> 8;
     }
 
-    inline auto WIFEXITED(int status) -> int {
+    auto WIFEXITED(int status) -> int {
         return WTERMSIG(status) == 0;
     }
 
-    inline auto WCOREDUMP(int status) -> int {
+    auto WCOREDUMP(int status) -> int {
         return status & 0200;
     }
 
-    inline auto WIFSIGNALED(int status) -> int {
+    auto WIFSIGNALED(int status) -> int {
         return (WTERMSIG(status) + 1) >> 1 > 0;
     }
 
-    inline auto WIFSTOPPED(int status) -> int {
+    auto WIFSTOPPED(int status) -> int {
         return (status & 0xff) == 0177;
     }
 
-    inline auto WEXITSTATUS(int status) -> int {
+    auto WEXITSTATUS(int status) -> int {
         return status & 0xff00 >> 8;
     }
 
-    inline auto read(int fd, void *buf, usize count) -> ssize {
+    auto read(int fd, void *buf, usize count) -> ssize {
         return syscall3(SYS_READ, fd, (ssize)buf, count);
     }
 
-    inline auto write(int fd, const void *buf, usize count) -> ssize {
+    auto write(int fd, const void *buf, usize count) -> ssize {
         return syscall3(SYS_WRITE, fd, (ssize)buf, count);
     }
 
-    inline auto open(const char *filename, int flags, unsigned short mode) -> int {
+    auto open(const char *filename, int flags, unsigned short mode) -> int {
         return syscall3(SYS_OPEN, (ssize)filename, flags, mode);
     }
 
-    inline auto close(int fd) -> int {
+    auto close(int fd) -> int {
         return syscall1(SYS_CLOSE, fd);
     }
 
-    inline auto poll(struct pollfd ufds[], unsigned int nfds, int timeout) -> int {
+    auto poll(struct pollfd ufds[], unsigned int nfds, int timeout) -> int {
         return syscall3(SYS_POLL, (ssize)ufds, nfds, timeout);
     }
 
-    inline auto lseek(int fd, ssize offset, int whence) -> ssize {
+    auto lseek(int fd, ssize offset, int whence) -> ssize {
         return syscall3(SYS_LSEEK, fd, offset, whence);
     }
 
-    inline auto mmap(void *addr, usize len, int prot, int flags, int fd, ssize offset) -> void * {
+    auto mmap(void *addr, usize len, int prot, int flags, int fd, ssize offset) -> void * {
         return (void *)syscall6(SYS_MMAP, (ssize)addr, len, prot, flags, fd, offset);
     }
 
-    inline auto munmap(void *addr, usize len) -> int {
+    auto munmap(void *addr, usize len) -> int {
         return syscall2(SYS_MUNMAP, (ssize)addr, len);
     }
 
-    inline auto pipe(int fds[2]) -> int {
+    auto pipe(int fds[2]) -> int {
         return syscall1(SYS_PIPE, (ssize)fds);
     }
 
-    inline auto getpid(void) -> int {
+    auto getpid(void) -> int {
         return syscall0(SYS_GETPID);
     }
 
-    inline auto socket(int domain, int type, int protocol) -> int {
+    auto socket(int domain, int type, int protocol) -> int {
         return syscall3(SYS_SOCKET, domain, type, protocol);
     }
 
-    inline auto connect(int sockfd, const void *addr, unsigned len) -> int {
+    auto connect(int sockfd, const void *addr, unsigned len) -> int {
         return syscall3(SYS_CONNECT, sockfd, (ssize)addr, len);
     }
 
-    inline auto accept(int sockfd, void *addr, unsigned *len) -> int {
+    auto accept(int sockfd, void *addr, unsigned *len) -> int {
         return syscall3(SYS_ACCEPT, sockfd, (ssize)addr, (ssize)len);
     }
 
-    inline ssize sendto(int sockfd, const void *buf, usize buf_len,
+    ssize sendto(int sockfd, const void *buf, usize buf_len,
                               int flags, const void *addr, unsigned addr_len) {
         return syscall6(SYS_SENDTO, sockfd, (ssize)buf, buf_len, flags,
                         (ssize)addr, addr_len);
     }
 
-    inline ssize recvfrom(int sockfd, const void *buf, usize buf_len,
+    ssize recvfrom(int sockfd, const void *buf, usize buf_len,
                                 int flags, const void *addr, unsigned *addr_len) {
         return syscall6(SYS_RECVFROM, sockfd, (ssize)buf, buf_len, flags,
                         (ssize)addr, (ssize)addr_len);
     }
 
-    inline auto shutdown(int sockfd, int how) -> int {
+    auto shutdown(int sockfd, int how) -> int {
         return syscall2(SYS_SHUTDOWN, sockfd, how);
     }
 
-    inline auto bind(int sockfd, const void *addr, unsigned len) -> int {
+    auto bind(int sockfd, const void *addr, unsigned len) -> int {
         return syscall3(SYS_BIND, sockfd, (ssize)addr, len);
     }
 
-    inline auto listen(int sockfd, int backlog) -> int {
+    auto listen(int sockfd, int backlog) -> int {
         return syscall2(SYS_LISTEN, sockfd, backlog);
     }
 
-    inline auto fork(void) -> int {
+    auto fork(void) -> int {
         return syscall0(SYS_FORK);
     }
 
-    inline auto exit(int code) -> void {
+    auto exit(int code) -> void {
         syscall1(SYS_EXIT, code);
     }
 
-    inline auto waitpid(int pid, int *status, int options) -> int {
+    auto waitpid(int pid, int *status, int options) -> int {
         return syscall4(SYS_WAIT4, pid, (ssize)status, options, 0);
     }
 
-    inline auto kill(int pid, int sig) -> int {
+    auto kill(int pid, int sig) -> int {
         return syscall2(SYS_KILL, pid, sig);
     }
 
-    inline auto umask(unsigned short cmask) -> core::s16 {
+    auto umask(unsigned short cmask) -> core::s16 {
         return syscall1(SYS_UMASK, cmask);
     }
 
