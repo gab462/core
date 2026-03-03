@@ -17,7 +17,7 @@ export namespace core {
         linear_allocator() = default;
 
         linear_allocator(usize size): total_size{size} {
-            start = static_cast<u8*>(mmap(nullptr, overcommit,
+            start = static_cast<u8 *>(mmap(nullptr, overcommit,
                                           PROT_READ | PROT_WRITE,
                                           MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE,
                                           -1, 0));

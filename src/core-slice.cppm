@@ -17,11 +17,11 @@ export namespace core {
             return ptr[idx];
         }
 
-        auto begin() -> T* {
+        auto begin() -> T * {
             return ptr;
         }
 
-        auto end() -> T* {
+        auto end() -> T * {
             return ptr + len;
         }
     };

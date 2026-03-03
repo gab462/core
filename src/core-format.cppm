@@ -16,7 +16,7 @@ export namespace core {
             format(arena, s.ptr[i]);
     }
 
-    auto format(linear_allocator *arena, const char* s) -> void {
+    auto format(linear_allocator *arena, const char *s) -> void {
         format(arena, string{s});
     }
 

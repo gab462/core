@@ -13,11 +13,11 @@ export namespace core {
             return data[idx];
         }
 
-        auto begin() -> T* {
+        auto begin() -> T * {
             return data;
         }
 
-        auto end() -> T* {
+        auto end() -> T * {
             return data + N;
         }
 

@@ -12,7 +12,7 @@ export import :string;
 // https://gcc.gnu.org/onlinedocs/gcc/Standards.html
 
 export extern "C" {
-    auto memcpy(core::u8 *dest, const core::u8* src, core::usize n) -> core::u8 * {
+    auto memcpy(core::u8 *dest, const core::u8 *src, core::usize n) -> core::u8 * {
         for (core::usize i = 0; i < n; ++i) {
             dest[i] = src[i];
         }
@@ -42,7 +42,7 @@ export extern "C" {
         return dst;
     }
 
-    auto memcmp(const core::u8* s1, const core::u8* s2, core::usize n) -> core::s32 {
+    auto memcmp(const core::u8 *s1, const core::u8 *s2, core::usize n) -> core::s32 {
         for (core::usize i = 0; i < n; ++i) {
             if (s1[i] != s2[i]) {
                 if (s1[i] < s2[i])
