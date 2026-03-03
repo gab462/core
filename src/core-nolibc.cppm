@@ -267,15 +267,15 @@ export namespace core {
     }
 
     auto read(int fd, void *buf, usize count) -> ssize {
-        return syscall3(SYS_READ, fd, (ssize)buf, count);
+        return syscall3(SYS_READ, fd, reinterpret_cast<ssize>(buf), count);
     }
 
     auto write(int fd, const void *buf, usize count) -> ssize {
-        return syscall3(SYS_WRITE, fd, (ssize)buf, count);
+        return syscall3(SYS_WRITE, fd, reinterpret_cast<ssize>(buf), count);
     }
 
     auto open(const char *filename, int flags, unsigned short mode) -> int {
-        return syscall3(SYS_OPEN, (ssize)filename, flags, mode);
+        return syscall3(SYS_OPEN, reinterpret_cast<ssize>(filename), flags, mode);
     }
 
     auto close(int fd) -> int {
@@ -283,7 +283,7 @@ export namespace core {
     }
 
     auto poll(struct pollfd ufds[], unsigned int nfds, int timeout) -> int {
-        return syscall3(SYS_POLL, (ssize)ufds, nfds, timeout);
+        return syscall3(SYS_POLL, reinterpret_cast<ssize>(ufds), nfds, timeout);
     }
 
     auto lseek(int fd, ssize offset, int whence) -> ssize {
@@ -291,15 +291,16 @@ export namespace core {
     }
 
     auto mmap(void *addr, usize len, int prot, int flags, int fd, ssize offset) -> void * {
-        return (void *)syscall6(SYS_MMAP, (ssize)addr, len, prot, flags, fd, offset);
+        return reinterpret_cast<void *>(syscall6(SYS_MMAP, reinterpret_cast<ssize>(addr), len,
+                                                 prot, flags, fd, offset));
     }
 
     auto munmap(void *addr, usize len) -> int {
-        return syscall2(SYS_MUNMAP, (ssize)addr, len);
+        return syscall2(SYS_MUNMAP, reinterpret_cast<ssize>(addr), len);
     }
 
     auto pipe(int fds[2]) -> int {
-        return syscall1(SYS_PIPE, (ssize)fds);
+        return syscall1(SYS_PIPE, reinterpret_cast<ssize>(fds));
     }
 
     auto getpid(void) -> int {
@@ -311,23 +312,24 @@ export namespace core {
     }
 
     auto connect(int sockfd, const void *addr, unsigned len) -> int {
-        return syscall3(SYS_CONNECT, sockfd, (ssize)addr, len);
+        return syscall3(SYS_CONNECT, sockfd, reinterpret_cast<ssize>(addr), len);
     }
 
     auto accept(int sockfd, void *addr, unsigned *len) -> int {
-        return syscall3(SYS_ACCEPT, sockfd, (ssize)addr, (ssize)len);
+        return syscall3(SYS_ACCEPT, sockfd, reinterpret_cast<ssize>(addr),
+                        reinterpret_cast<ssize>(len));
     }
 
-    ssize sendto(int sockfd, const void *buf, usize buf_len,
-                              int flags, const void *addr, unsigned addr_len) {
-        return syscall6(SYS_SENDTO, sockfd, (ssize)buf, buf_len, flags,
-                        (ssize)addr, addr_len);
+    auto sendto(int sockfd, const void *buf, usize buf_len, int flags,
+                const void *addr, unsigned addr_len) -> ssize {
+        return syscall6(SYS_SENDTO, sockfd, reinterpret_cast<ssize>(buf), buf_len, flags,
+                        reinterpret_cast<ssize>(addr), addr_len);
     }
 
-    ssize recvfrom(int sockfd, const void *buf, usize buf_len,
-                                int flags, const void *addr, unsigned *addr_len) {
-        return syscall6(SYS_RECVFROM, sockfd, (ssize)buf, buf_len, flags,
-                        (ssize)addr, (ssize)addr_len);
+    auto recvfrom(int sockfd, const void *buf, usize buf_len,
+                  int flags, const void *addr, unsigned *addr_len) -> ssize {
+        return syscall6(SYS_RECVFROM, sockfd, reinterpret_cast<ssize>(buf), buf_len, flags,
+                        reinterpret_cast<ssize>(addr), reinterpret_cast<ssize>(addr_len));
     }
 
     auto shutdown(int sockfd, int how) -> int {
@@ -335,7 +337,7 @@ export namespace core {
     }
 
     auto bind(int sockfd, const void *addr, unsigned len) -> int {
-        return syscall3(SYS_BIND, sockfd, (ssize)addr, len);
+        return syscall3(SYS_BIND, sockfd, reinterpret_cast<ssize>(addr), len);
     }
 
     auto listen(int sockfd, int backlog) -> int {
@@ -351,7 +353,7 @@ export namespace core {
     }
 
     auto waitpid(int pid, int *status, int options) -> int {
-        return syscall4(SYS_WAIT4, pid, (ssize)status, options, 0);
+        return syscall4(SYS_WAIT4, pid, reinterpret_cast<ssize>(status), options, 0);
     }
 
     auto kill(int pid, int sig) -> int {
