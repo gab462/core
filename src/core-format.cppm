@@ -104,7 +104,7 @@ export namespace core {
     }
 
     auto assert(bool pred, const char *file = __builtin_FILE(), s32 line = __builtin_LINE()) -> void {
-        if (!pred) {
+        if (not pred) {
             u8 *start = temp::alloc<u8>(0).ptr;
 
             format(&temp::allocator, file);

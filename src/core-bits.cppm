@@ -16,13 +16,13 @@ export namespace core {
     using ssize = decltype((char *) 0 - (char *) 1);
 
     static_assert(sizeof(u8) == 1
-                  && sizeof(u16) == 2
-                  && sizeof(u32) == 4
-                  && sizeof(u64) == 8);
+                  and sizeof(u16) == 2
+                  and sizeof(u32) == 4
+                  and sizeof(u64) == 8);
 
     using f32 = float;
     using f64 = double;
 
-    static_assert(sizeof(f32) == 4 && sizeof(f64) == 8);
+    static_assert(sizeof(f32) == 4 and sizeof(f64) == 8);
 
 }

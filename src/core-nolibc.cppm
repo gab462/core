@@ -2,7 +2,7 @@ export module core:nolibc;
 
 import :bits;
 
-#if defined(__linux__) && defined(__x86_64__)
+#if defined(__linux__) and defined(__x86_64__)
 #define SYS_LINUX
 #elif defined(__wasm32__)
 #define SYS_WASM
