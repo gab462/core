@@ -112,7 +112,7 @@ export namespace core {
             format(&temp::allocator, line);
             format(&temp::allocator, ": assertion failed\n");
 
-            string s =  {reinterpret_cast<const char *>(start), static_cast<usize>(temp::allocator.end - start)};
+            string s = {reinterpret_cast<const char *>(start), static_cast<usize>(temp::allocator.end - start)};
             write(STDOUT_FILENO, s.ptr, s.len);
 
             exit(1);
