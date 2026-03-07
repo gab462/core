@@ -9,6 +9,12 @@ template <typename T, usize N>
 struct array {
     T data[N];
 
+    array() = default;
+
+    template <typename... A>
+    array(A... args)
+        : data { args... } { }
+
     auto operator[](usize idx) -> T& {
         return data[idx];
     }
@@ -27,8 +33,6 @@ struct array {
 };
 
 template <typename T, typename... A>
-auto make_array(T arg, A... args) {
-    return array<T, 1 + sizeof...(args)> { arg, args... };
-}
+array(T arg, A... args) -> array<T, 1 + sizeof...(A)>;
 
 }

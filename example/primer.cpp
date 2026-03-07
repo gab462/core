@@ -18,7 +18,7 @@ extern "C" auto _start() -> void {
     core::assert(s[0] == 3);
     core::assert(s[2] == 3);
 
-    auto arr = core::make_array('a', 'b', 'c');
+    core::array arr { 'a', 'b', 'c' };
 
     core::assert(arr[0] == 'a');
     core::assert(arr[2] == 'c');
