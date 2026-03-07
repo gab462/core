@@ -49,9 +49,9 @@ extern "C" auto _start() -> void {
 
     char buf[4096];
     for (core::usize received = core::read(client_fd, buf, sizeof(buf));
-            received > 0;
-            received = core::read(client_fd, buf, sizeof(buf))) {
-        core::println("Received:", core::string{buf, received});
+         received > 0;
+         received = core::read(client_fd, buf, sizeof(buf))) {
+        core::println("Received:", core::string { buf, received });
 
         core::write(client_fd, buf, received);
     }

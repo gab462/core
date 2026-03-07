@@ -6,86 +6,87 @@ import :memory;
 import :slice;
 
 export namespace core {
-        
-    struct linear_allocator {
-        static constexpr usize overcommit = 16ul * 1024 * 1024 * 1024;
 
-        u8 *start;
-        u8 *end;
-        usize total_size;
+struct linear_allocator {
+    static constexpr usize overcommit = 16ul * 1024 * 1024 * 1024;
 
-        linear_allocator() = default;
+    u8* start;
+    u8* end;
+    usize total_size;
 
-        linear_allocator(usize size): total_size{size} {
-            start = static_cast<u8 *>(mmap(nullptr, total_size,
-                                          PROT_READ | PROT_WRITE,
-                                          MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE,
-                                          -1, 0));
-            end = start;
-        }
+    linear_allocator() = default;
 
-        template <typename T>
-        auto align() -> void {
-            usize pos = end - start;
+    linear_allocator(usize size)
+        : total_size { size } {
+        start = static_cast<u8*>(mmap(nullptr, total_size,
+                                      PROT_READ | PROT_WRITE,
+                                      MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE,
+                                      -1, 0));
+        end = start;
+    }
 
-            if (pos % alignof(T) != 0)
-                end += alignof(T) - (pos % alignof(T));
-        }
+    template <typename T>
+    auto align() -> void {
+        usize pos = end - start;
 
-        template <typename T, typename ...A>
-        auto create(A... args) -> T * {
-            align<T>();
-            auto addr = new(end) T{args...};
-            end += sizeof(T);
+        if (pos % alignof(T) != 0)
+            end += alignof(T) - (pos % alignof(T));
+    }
 
-            return static_cast<T *>(addr);
-        }
+    template <typename T, typename... A>
+    auto create(A... args) -> T* {
+        align<T>();
+        auto addr = new (end) T { args... };
+        end += sizeof(T);
 
-        template <typename T, typename ...A>
-        auto alloc(usize count) -> slice<T> {
-            align<T>();
-            auto addr = new(end) T[count];
-            end += sizeof(T) * count;
+        return static_cast<T*>(addr);
+    }
 
-            return slice<T>{addr, count};
-        }
+    template <typename T, typename... A>
+    auto alloc(usize count) -> slice<T> {
+        align<T>();
+        auto addr = new (end) T[count];
+        end += sizeof(T) * count;
 
-        auto reset() -> void {
-            end = start;
-        }
+        return slice<T> { addr, count };
+    }
 
-        auto free_all() -> void {
-            munmap(start, total_size);
-        }
-    };
+    auto reset() -> void {
+        end = start;
+    }
 
-    struct temp {
-        static inline linear_allocator allocator = {};
+    auto free_all() -> void {
+        munmap(start, total_size);
+    }
+};
 
-        template <typename T, typename ...A>
-        static auto create(A... args) -> T * {
-            if (allocator.start == nullptr)
-                allocator = linear_allocator(linear_allocator::overcommit);
+struct temp {
+    static inline linear_allocator allocator = { };
 
-            return allocator.create<T>(args...);
-        }
+    template <typename T, typename... A>
+    static auto create(A... args) -> T* {
+        if (allocator.start == nullptr)
+            allocator = linear_allocator(linear_allocator::overcommit);
 
-        template <typename T, typename ...A>
-        static auto alloc(usize count) -> slice<T> {
-            if (allocator.start == nullptr)
-                allocator = linear_allocator(linear_allocator::overcommit);
+        return allocator.create<T>(args...);
+    }
 
-            return allocator.alloc<T>(count);
-        }
+    template <typename T, typename... A>
+    static auto alloc(usize count) -> slice<T> {
+        if (allocator.start == nullptr)
+            allocator = linear_allocator(linear_allocator::overcommit);
 
-        static auto reset() -> void {
-            allocator.reset();
-        }
+        return allocator.alloc<T>(count);
+    }
 
-        static auto free_all() -> void {
-            if (allocator.start != nullptr)
-                allocator.free_all();
-        }
-    };
+    static auto reset() -> void {
+        allocator.reset();
+    }
+
+    static auto free_all() -> void {
+        if (allocator.start != nullptr)
+            allocator.free_all();
+    }
+};
 
 }

@@ -46,7 +46,7 @@ extern "C" auto _start() -> void {
         core::exit(1);
     }
 
-    core::println("Message:", core::string{buf, received});
+    core::println("Message:", core::string { buf, received });
 
     core::close(fd);
 

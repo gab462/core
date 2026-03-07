@@ -11,7 +11,7 @@ extern "C" auto _start() -> void {
         e = 3;
     }
 
-    for (auto e: s) {
+    for (auto e : s) {
         core::println("slice:", e);
     }
 
@@ -23,7 +23,7 @@ extern "C" auto _start() -> void {
     core::assert(arr[0] == 'a');
     core::assert(arr[2] == 'c');
 
-    for (auto e: arr) {
+    for (auto e : arr) {
         core::println("arr:", e);
     }
 
@@ -37,7 +37,7 @@ extern "C" auto _start() -> void {
 
     core::assert(view[2] == 'd');
 
-    for (auto e: view) {
+    for (auto e : view) {
         core::println("view:", e);
     }
 
