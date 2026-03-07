@@ -12,6 +12,18 @@ set(EXAMPLE_SRCS
   server.cpp
 )
 
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/../res/core.js"
+    "${CMAKE_CURRENT_BINARY_DIR}/core.js"
+    COPYONLY
+)
+
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/index.html"
+    "${CMAKE_CURRENT_BINARY_DIR}/index.html"
+    COPYONLY
+)
+
 foreach(src IN LISTS EXAMPLE_SRCS)
   get_filename_component(name ${src} NAME_WE)
   add_executable(${name} ${src})
