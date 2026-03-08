@@ -12,6 +12,7 @@
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "BUILD_EXAMPLES": "ON"
             }
         },
@@ -22,6 +23,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/res/toolchain-wasm.cmake",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "BUILD_EXAMPLES": "ON"
             }
         }
