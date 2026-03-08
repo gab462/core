@@ -10,6 +10,7 @@ set(EXAMPLE_SRCS
   primer.cpp
   client.cpp
   server.cpp
+  argv.cpp
 )
 
 configure_file(
