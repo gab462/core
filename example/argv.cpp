@@ -2,6 +2,8 @@ import core;
 
 extern "C" { core::slice<char*> argv = {}; }
 
+#if defined(__linux__) and defined(__x86_64__)
+
 extern "C" [[gnu::naked]] auto _start() -> void {
     __asm__ volatile(
         "pop %rax\n"
@@ -16,6 +18,8 @@ extern "C" [[gnu::naked]] auto _start() -> void {
         "syscall\n"
     );
 }
+
+#endif
 
 extern "C" auto start() -> int {
     core::println("arg count:", argv.len);
