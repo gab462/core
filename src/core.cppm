@@ -2,6 +2,8 @@ export module core;
 
 export import :bits;
 export import :array;
+export import :bounded_array;
+export import :ring_buffer;
 export import :format;
 export import :linear_allocator;
 export import :memory;
